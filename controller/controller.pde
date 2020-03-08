@@ -19,11 +19,11 @@ void setup() {
   bgImage = loadImage("data/bg.jpg");
   MX = width/2;
   MY = height/2;
-  
+
   PX = MX;
   PY = MY;
   PZ = ZOOM + 200;
-  
+
   star = new Star(100, 0.25, "data/sun.jpg");
   Planet pl2 = new Planet(200, 40, 0.5, 1, 100, "data/planet2.jpg");
   pl2.satellites.add(new Satellite(0, 5, 0.5, 3, 10, "data/satellite1.jpg"));
@@ -35,7 +35,7 @@ void setup() {
   pl1.satellites.add(new Satellite(60, 5, 0.5, 5, 30, "data/satellite1.jpg"));
   star.planets.add(pl1);
   star.planets.add(new Planet(10, 40, 0.5, 0.5, 500, "data/planet5.jpg"));
-  
+
   ship = loadShape("ARC170.obj");
   ship.rotateX(radians(180));
   ship.rotateY(radians(180));
@@ -45,7 +45,7 @@ void setup() {
 void draw() {
   text("Planetary system", width/2, 0);
   background(bgImage.get(constrain(int(MX*0.1), 0, width/4), constrain(int(MY*0.1), 0, height/2), width, height));
-  
+
   pushMatrix();
   lights();
   noStroke();
@@ -56,31 +56,40 @@ void draw() {
   popMatrix();
 
   pushMatrix();
-  
+
   PX = PX + speed * direction.x;
   PY = PY + speed * direction.y;
   PZ = PZ + speed * direction.z;
-  
-  
+
+
   translate(PX, PY, PZ);
   shape(ship);
-  
+
+  if (FPS) {
+    fill(255);
+    textMode(SHAPE);
+    textSize(5);
+    textAlign(LEFT, CENTER);
+    text("> Press 'F' key to change to the system view", 30, 90);
+    text("> Mouse wheel to zoom in/out", 30, 100);
+  }
+
   popMatrix();
-  
-  if(FPS) {
+
+  if (FPS) {
     camera(PX, PY, PZ + 200, PX, PY, PZ, 0, 1, 0);
   } else {
     camera();
+    fill(255);
+    textMode(SHAPE);
+    textSize(20);
+    textAlign(LEFT, CENTER);
+    text("> Left click drag to move the whole system", 10, 15);
+    text("> Right click drag to rotate the whole system", 10, 40);
+    text("> Mouse wheel to zoom in/out", 10, 65);
+    text("> Press 'R' key to restore to default the system", 10, 90);
+    text("> Press 'F' key to change to the ship view", 10, 115);
   }
-
-  fill(255);
-  textMode(SHAPE);
-  textSize(20);
-  textAlign(LEFT, CENTER);
-  text("> Left click drag to move the whole system", 10, 15);
-  text("> Right click drag to rotate the whole system", 10, 40);
-  text("> Mouse wheel to zoom in/out", 10, 65);
-  text("> Press 'R' key to restore to default the system", 10, 90);
 }
 
 void keyPressed() {
@@ -91,21 +100,28 @@ void keyPressed() {
     MX = width/2;
     MY = height/2;
   }
-  if(keyCode == 'W') speed = 5;
-  if(keyCode == 'S') speed = -5;
-  if(keyCode == UP) direction.y -= 0.5;
-  if(keyCode == DOWN) direction.y += 0.5;
-  if(keyCode == LEFT) direction.x -= 0.5;
-  if(keyCode == RIGHT) direction.x += 0.5;
+  if (keyCode == 'F') {
+    if (FPS) {
+      FPS = false;
+    } else {
+      FPS = true;
+    }
+  }
+  if (keyCode == 'W') speed = 5;
+  if (keyCode == 'S') speed = -5;
+  if (keyCode == UP) direction.y -= 0.5;
+  if (keyCode == DOWN) direction.y += 0.5;
+  if (keyCode == LEFT) direction.x -= 0.5;
+  if (keyCode == RIGHT) direction.x += 0.5;
 }
 
 void keyReleased() {
-  if(keyCode == 'W') speed = 0;
-  if(keyCode == 'S') speed = 0;
-  if(keyCode == UP) direction.y = 0;
-  if(keyCode == DOWN) direction.y = 0;
-  if(keyCode == LEFT) direction.x = 0;
-  if(keyCode == RIGHT) direction.x = 0;
+  if (keyCode == 'W') speed = 0;
+  if (keyCode == 'S') speed = 0;
+  if (keyCode == UP) direction.y = 0;
+  if (keyCode == DOWN) direction.y = 0;
+  if (keyCode == LEFT) direction.x = 0;
+  if (keyCode == RIGHT) direction.x = 0;
 }
 
 void mouseWheel(MouseEvent event) {
