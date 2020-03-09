@@ -98,6 +98,8 @@ En mi equipo suponía una carga excesiva de procesamiento, por lo que se recomie
 
 ### Material
 
+<b>[[Modelo de la nave]](https://free3d.com/3d-model/arc-170-battle-ship-64197.html)</b>
+
 ### Guías y ayuda
 
 <b>[[Referencia de Processing]](https://processing.org/reference/)</b>
